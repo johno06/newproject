@@ -65,7 +65,7 @@ router.post("/login", async (req, res) => {
       });
     } else {
       const token = User(
-        { id: user._id, email: user.email, name: user.name, verified: user.verified });
+        { id: user._id, email: user.email, name: user.name, surname: user.surname, phone: user.phone, birthdate: user.birthdate, address: user.address, gender: user.gender, isDoctor: user.isDoctor, verified: user.verified });
       res.status(200).send({
         message: "Login successful",
         success: true,
