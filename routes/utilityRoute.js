@@ -64,13 +64,8 @@ router.post("/login", async (req, res) => {
         success: false,
       });
     } else {
-      const token = jwt.sign(
-        { id: user._id, email: user.email, name: user.name, verified: user.verified },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "7d",
-        }
-      );
+      const token = User(
+        { id: user._id, email: user.email, name: user.name, verified: user.verified });
       res.status(200).send({
         message: "Login successful",
         success: true,
