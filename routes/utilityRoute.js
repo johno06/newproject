@@ -64,8 +64,8 @@ router.post("/login", async (req, res) => {
         success: false,
       });
     } else {
-      const token = User(
-        { id: user._id, email: user.email, name: user.name, surname: user.surname, phone: user.phone, birthdate: user.birthdate, address: user.address, gender: user.gender, isDoctor: user.isDoctor, verified: user.verified });
+      // const token = User(
+      //   { id: user._id, email: user.email, name: user.name, surname: user.surname, phone: user.phone, birthdate: user.birthdate, address: user.address, gender: user.gender, isDoctor: user.isDoctor, verified: user.verified });
       // jwt.sign(
       //   { id: user._id, email: user.email, name: user.name, verified: user.verified },
       //   process.env.JWT_SECRET,
@@ -75,7 +75,7 @@ router.post("/login", async (req, res) => {
         res.status(200).send({
         message: "Login successful",
         success: true,
-        data: token,
+        data: user,
       });
     }
   } catch (error) {
