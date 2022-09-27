@@ -84,6 +84,44 @@ router.post("/register", async (req, res) => {
 });
 
 
+router.patch ('/updatePassword/:id', async (req, res, next) => {
+  try {
+    // const {userId} = req.body;
+    // const user = await User.findById({userId});
+    
+
+    const id = req.params.id;
+    const updates = req.body;
+    const hash = await argon2.hash(req.body.password);
+    // console.log(req.body.password);
+    req.body.password = hash;
+    // console.log (updates);
+    const options = {new: true};
+    const result = await User.findByIdAndUpdate (id, updates, options);
+    res.send (result);
+  } catch (error) {
+    console.log (error.message);
+    // res.json({message:'email is already used'})
+  }
+});
+
+router.patch ('/updateProfile/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const updates = req.body;
+    const options = {new: true};
+
+    const result = await User.findByIdAndUpdate (id, updates, options);
+    res.send (result);
+  } catch (error) {
+    console.log (error.message);
+    // res.json({message:'email is already used'})
+  }
+});
+
+
+
+
 router.post("/forgotpassword", async (req, res) => {
   try {
     const { email } = req.body;
