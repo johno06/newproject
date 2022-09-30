@@ -6,6 +6,7 @@ const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middleware/authMiddleware");
 const Appointment = require("../models/appointmentModel");
+// const bookApp = require('../models/appointment.model');
 const moment = require("moment");
 const { sendVerificationEmail, sendForgotPasswordEmail } = require("../config/sendEmail");
 
@@ -383,25 +384,8 @@ router.post("/delete-all-notifications", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/get-all-approved-doctors", async (req, res) => {
-  try {
-    const doctors = await Doctor.find({ status: "approved" });
-    res.status(200).send({
-      message: "Aprroved doctors fetched successfully",
-      success: true,
-      data: doctors,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      message: "Error applying doctor account",
-      success: false,
-      error,
-    });
-  }
-});
 
-router.post("/book-appointment", authMiddleware, async (req, res) => {
+router.post("/book-appointment", async (req, res) => {
   try {
     req.body.status = "pending";
     req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString();
@@ -429,6 +413,117 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     });
   }
 });
+
+
+
+router.post ('/bookAppointment', (req, res) => {
+  if (
+    !req.body.userId ||
+    !req.body.doctorId ||
+    !req.body.date ||
+    !req.body.time
+  ) {
+    res.json ({success: false, msg: 'Please Enter all fields'});
+  } else {
+    Appointment.findOne (
+      {date: req.body.date, time: req.body.time},
+      (err, appointment) => {
+        if (err) {
+          res.json ({
+            success: false,
+            msg: 'The Date and Time is not available.',
+          });
+          console.log (err);
+          res.json (err);
+        } else {
+          if (appointment == null) {
+            const appointment = Appointment ({
+              userId: req.body.userId,
+              doctorId: req.body.doctorId,
+              date: req.body.date,
+              time: req.body.time,
+            });
+            appointment.save ().then (err => {
+              if (err) {
+                console.log (err);
+                res.json (err);
+              } else {
+                console.log (appointment);
+                res.json (appointment);
+              }
+            });
+          } else {
+            // res.json ({
+            //   message: 'Date and Time is not available. Please choose another',
+            // });
+            res.status(500).send({
+              message: "Date and Time is not available. Please choose another",
+              success: false,
+            });
+          }
+        }
+      }
+    );
+  }
+});
+
+router.get ('/get-pending-appointments', async (req, res) => {
+  try {
+    const appointment = await Appointment.find ({status: 'pending'});
+    res.status (200).send ({
+      message: 'pending appointments fetched successfully',
+      success: true,
+      data: appointment,
+    });
+  } catch (error) {
+    console.log (error);
+    res.status (500).send ({
+      message: 'Error',
+      success: false,
+      error,
+    });
+  }
+});
+
+router.get ('/get-approved-appointments', async (req, res) => {
+  try {
+    const appointment = await Appointment.find ({status: 'approved'});
+    res.status (200).send ({
+      message: 'approved appointments fetched successfully',
+      success: true,
+      data: appointment,
+    });
+  } catch (error) {
+    console.log (error);
+    res.status (500).send ({
+      message: 'Error',
+      success: false,
+      error,
+    });
+  }
+});
+
+
+
+router.get ('/get-all-approved-doctors', async (req, res) => {
+  try {
+    const doctors = await Doctor.find ({status: 'approved'});
+    res.status (200).send ({
+      message: 'Aprroved doctors fetched successfully',
+      success: true,
+      data: doctors,
+    });
+  } catch (error) {
+    console.log (error);
+    res.status (500).send ({
+      message: 'Error applying doctor account',
+      success: false,
+      error,
+    });
+  }
+});
+
+
 
 router.post("/check-booking-availability", authMiddleware, async (req, res) => {
   try {
