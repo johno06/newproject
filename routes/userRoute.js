@@ -394,11 +394,11 @@ router.post("/book-appointment", async (req, res) => {
     await newAppointment.save();
     //pushing notification to doctor based on his userid
     const user = await User.findOne({ _id: req.body.doctorInfo.userId });
-    user.unseenNotifications.push({
-      type: "new-appointment-request",
-      message: `A new appointment request has been made by ${req.body.userInfo.user.name}`,
-      onClickPath: "/doctor/appointments",
-    });
+    // user.unseenNotifications.push({
+    //   type: "new-appointment-request",
+    //   message: `A new appointment request has been made by ${req.body.userInfo.user.name}`,
+    //   onClickPath: "/doctor/appointments",
+    // });
     await user.save();
     res.status(200).send({
       message: "Appointment booked successfully",
@@ -421,7 +421,9 @@ router.post ('/bookAppointment', (req, res) => {
     !req.body.userId ||
     !req.body.doctorId ||
     !req.body.date ||
-    !req.body.time
+    !req.body.time ||
+    !req.body.doctorInfo ||
+    !req.body.userInfo
   ) {
     res.json ({success: false, msg: 'Please Enter all fields'});
   } else {
@@ -442,6 +444,8 @@ router.post ('/bookAppointment', (req, res) => {
               doctorId: req.body.doctorId,
               date: req.body.date,
               time: req.body.time,
+              userInfo: req.body.userInfo,
+              doctorInfo: req.body.doctorInfo
             });
             appointment.save ().then (err => {
               if (err) {
@@ -502,6 +506,77 @@ router.get ('/get-approved-appointments', async (req, res) => {
     });
   }
 });
+
+router.get ('/get-completed-appointments', async (req, res) => {
+  try {
+    const appointment = await Appointment.find ({status: 'completed'});
+    res.status (200).send ({
+      message: 'completed appointments fetched successfully',
+      success: true,
+      data: appointment,
+    });
+  } catch (error) {
+    console.log (error);
+    res.status (500).send ({
+      message: 'Error',
+      success: false,
+      error,
+    });
+  }
+});
+
+router.get ('/get-rejected-appointments', async (req, res) => {
+  try {
+    const appointment = await Appointment.find ({status: 'rejected'});
+    res.status (200).send ({
+      message: 'rejected appointments fetched successfully',
+      success: true,
+      data: appointment,
+    });
+  } catch (error) {
+    console.log (error);
+    res.status (500).send ({
+      message: 'Error',
+      success: false,
+      error,
+    });
+  }
+});
+
+router.get ('/get-all-verified-patients', async (req, res) => {
+  try {
+    const users = await User.find ({verified: true});
+    res.status (200).send ({
+      message: 'verified patients fetched successfully',
+      success: true,
+      data: users,
+    });
+  } catch (error) {
+    console.log (error);
+    res.status (500).send ({
+      message: 'Error getting patient account',
+      success: false,
+      error,
+    });
+  }
+});
+
+
+router.patch ('/updateAppointments/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const updates = req.body;
+    const options = {new: true};
+
+    const result = await Appointment.findByIdAndUpdate (id, updates, options);
+    res.send (result);
+  } catch (error) {
+    console.log (error.message);
+    // res.json({message:'email is already used'})
+  }
+});
+
+
 
 
 
