@@ -545,7 +545,7 @@ router.get ('/get-rejected-appointments', async (req, res) => {
 
 router.get ('/get-all-verified-patients', async (req, res) => {
   try {
-    const users = await User.find ({verified: true});
+    const users = await User.find ({verified: true, isDoctor: false, isAdmin: false});
     res.status (200).send ({
       message: 'verified patients fetched successfully',
       success: true,
