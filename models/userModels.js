@@ -59,7 +59,10 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    
+    devices: {
+      type: Array,
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -20,7 +20,7 @@ const passwordValidation = new RegExp(
 
 router.post("/register", async (req, res) => {
   try {
-    const { name, email, password, confirmPassword } = req.body;
+    const { name, email, password, confirmPassword, devices } = req.body;
 
     //finds if user already exists in database by email
     const userExists = await User.findOne({ email });
