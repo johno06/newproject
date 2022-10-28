@@ -47,7 +47,7 @@ router.post("/get-doctor-info-by-id", authMiddleware, async (req, res) => {
 
 //////////////////////////////////////////////////////////////////////
 
-router.get ('/get-doctor-info-by-its-id', async (req, res) => {
+router.post ('/get-doctor-info-by-its-id', async (req, res) => {
   try {
     const doctor = await Doctor.findOne ({userId: req.body.userId});
     res.status (200).send ({
