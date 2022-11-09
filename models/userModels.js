@@ -63,6 +63,12 @@ const userSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
+    phr: {
+      type: Array,
+      default: [
+
+      ],
+    },
   },
   {
     timestamps: true,

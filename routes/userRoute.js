@@ -438,6 +438,7 @@ router.post ('/bookAppointment', (req, res) => {
     !req.body.doctorId ||
     !req.body.date ||
     !req.body.time ||
+    !req.body.consultationType ||
     !req.body.doctorInfo ||
     !req.body.userInfo
   ) {
@@ -460,6 +461,7 @@ router.post ('/bookAppointment', (req, res) => {
               doctorId: req.body.doctorId,
               date: req.body.date,
               time: req.body.time,
+              consultationType: req.body.consultationType,
               userInfo: req.body.userInfo,
               doctorInfo: req.body.doctorInfo
             });
@@ -590,6 +592,26 @@ router.get ('/getByIdPatient/:id', async (req, res, next) => {
     // res.json({message:'email is already used'})
   }
 });
+
+router.patch ('/addRecord/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const options = {new: true};
+    const push = {
+      $push: {
+        phr:
+          req.body.phr,
+      },
+    };
+
+    const result = await User.findByIdAndUpdate (id, push, options);
+    res.send (result);
+  } catch (error) {
+    console.log (error.message);
+    // res.json({message:'email is already used'})
+  }
+});
+
 
 
 
