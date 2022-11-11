@@ -69,6 +69,10 @@ const userSchema = new mongoose.Schema(
 
       ],
     },
+    rtcToken: {
+      type: String,
+      default: "",
+    }
   },
   {
     timestamps: true,
