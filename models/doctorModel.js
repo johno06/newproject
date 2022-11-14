@@ -17,10 +17,6 @@ const doctorSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    website: {
-      type: String,
-      required: true,
-    },
     address: {
       type: String,
       required: true,
@@ -31,10 +27,6 @@ const doctorSchema = new mongoose.Schema(
     },
     experience: {
       type: String,
-      required: true,
-    },
-    fee: {
-      type: Number,
       required: true,
     },
     timings: {

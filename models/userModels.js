@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    phone: {
+    phoneNumber: {
       type: String,
       default: "",
     },
@@ -27,15 +27,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    gender: {
-      type: String,
-      default: "",
-    },
     address: {
-      type: String,
-      default: "",
-    },
-    emailVerificationToken: {
       type: String,
       default: "",
     },
