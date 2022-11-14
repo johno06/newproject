@@ -53,7 +53,7 @@ const userSchema = new mongoose.Schema(
     },
     devices: {
       type: Array,
-      required: true,
+      default: [],
     },
     phr: {
       type: Array,

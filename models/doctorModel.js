@@ -39,7 +39,7 @@ const doctorSchema = new mongoose.Schema(
     },
     devices: {
       type: Array,
-      required: true,
+      default: [],
     },
   },
   {
