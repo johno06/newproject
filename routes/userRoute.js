@@ -507,6 +507,24 @@ router.get ('/get-pending-appointments', async (req, res) => {
   }
 });
 
+router.get ('/get-absent-appointments', async (req, res) => {
+  try {
+    const appointment = await Appointment.find ({status: 'absent'});
+    res.status (200).send ({
+      message: 'no-show appointments fetched successfully',
+      success: true,
+      data: appointment,
+    });
+  } catch (error) {
+    console.log (error);
+    res.status (500).send ({
+      message: 'Error',
+      success: false,
+      error,
+    });
+  }
+});
+
 router.get ('/get-approved-appointments', async (req, res) => {
   try {
     const appointment = await Appointment.find ({status: 'approved'});
