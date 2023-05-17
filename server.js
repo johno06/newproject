@@ -5,6 +5,8 @@ const express = require ('express');
 const app = express ();
 app.use (express.json ());
 
+
+
 app.get ('/', (req, res) => {
   res.send ('Hello World!');
 });
@@ -14,6 +16,7 @@ const adminRoute = require ('./routes/adminRoute');
 const doctorRoute = require ('./routes/doctorsRoute');
 const utilityRoute = require ('./routes/utilityRoute');
 
+app.use ('/api', require ('./routes/app.route'));
 app.use ('/api/user', userRoute);
 app.use ('/api/admin', adminRoute);
 app.use ('/api/doctor', doctorRoute);

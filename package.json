@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@onesignal/node-onesignal": "^1.0.0-beta4",
     "argon2": "^0.28.7",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
@@ -15,6 +16,7 @@
     "moment": "^2.29.4",
     "mongoose": "^6.4.4",
     "nodemailer": "^6.7.7",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "onesignal-node": "^3.4.0"
   }
 }
