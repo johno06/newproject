@@ -63,6 +63,7 @@ router.post('/get-doctor-info-by-its-id', async (req, res) => {
 });
 
 
+
 router.patch ('/checkDevice/:id', async (req, res, next) => {
   try {
     // const {userId} = req.body;
