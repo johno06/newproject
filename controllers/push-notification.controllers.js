@@ -12,6 +12,7 @@ exports.SendNotification = (req, res, next) => {
             PushTitle: "CUSTOM NOTIFICATION"
         }
     };
+    
 
     pushNotificationService.SendNotification(message, (error, results) => {
         if(error){
